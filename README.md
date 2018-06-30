@@ -12,6 +12,7 @@ User Stories:
 3.
 
 
+#INITAL PROJECT ARCHTECTURE, TO DO 
 
 *DESIGN/LAYOUT*
     //pre: decide layout design/etc
@@ -53,3 +54,21 @@ User Stories:
     //pre: research API documentation
     New Searches: Take the response fromt the Urban dictionary api and push through speech api
     Recalled Searches: Take data from firebase and run through speech api
+
+
+*FUNCTIONS*
+- user word lookup input submit 
+    + store to variable
+    + this variable will be the paramater of the urban dic funtion
+- urban dic call func
+    + takes a paramater (user word lookup input var)
+    + stores a response 
+- convert JSON response to an object/string function
+- speech api call func
+- write to DOM func
+    + puts user word lookup var to reuse during their session if they want to recall the word again or play through the speech api
+- event listener on past word searches clickable elements to recall defnition
+    + firebase retrieval
+- reset function
+    + clear user input
+    + reset variables
