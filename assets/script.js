@@ -23,18 +23,26 @@ $("#addword").on("click", function (event) {
         dataType: "json",
         success: function (data) {
             console.log(data);
-            addrow(data)
+            addrow(data);
+            var definition = data.list[0].definition;
+            setWordTable(word, definition);
         }
     });
 });
 
 
-var inputWord = $("#word-input").val().trim();
-var wordBank = {
-    inputWord: inputWord,
+//this function pushes data to the database
+function setWordTable(word, definition) {
+    word = {
+        wordkey: word,
+        definition: definition
+    };
+
+    // Add player2 to the database
+    database.ref().child("/wordbank/words").set(word);
 }
 
-database.ref().push(wordBank);
+
 
 function voiceAPI(definition) {
     console.log(definition);
@@ -44,16 +52,18 @@ function voiceAPI(definition) {
     synth.speak(utterance);
 }
 
-let $testButton = $('#button--test');
+let $testButton = $('.button--test');
 
 $testButton.click(function() {
-    voiceAPI("hello, this is a test");
+    voiceAPI(button);
 });
+
+var button = "<button class='btn voice_button button--test'>hello</button>";
 
 function addrow(data) {
     $("#library").append
     ("<tr>" + 
-    "<td class='button'>" + "<button id='button--test' class='btn voice_button'>test</button>" + "</td>" +
+    "<td class='button'>" + button + "</td>" +
     "<td class='word'>" + word + "</td>" +
     "<td class='definition'>" + data.list[0].definition + "</td>" +
     "<td class='delete'>" + "delete icon" + "</td>"
