@@ -1,72 +1,80 @@
- // Initialize Firebase
- var config = {
-     apiKey: "AIzaSyBPssffqK84uGPAMvake998Dx8CWaZtNBc",
-     authDomain: "urbanvoiceproject-3c91e.firebaseapp.com",
-     databaseURL: "https://urbanvoiceproject-3c91e.firebaseio.com",
-     projectId: "urbanvoiceproject-3c91e",
-     storageBucket: "",
-     messagingSenderId: "458019784325"
- };
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyBPssffqK84uGPAMvake998Dx8CWaZtNBc",
+    authDomain: "urbanvoiceproject-3c91e.firebaseapp.com",
+    databaseURL: "https://urbanvoiceproject-3c91e.firebaseio.com",
+    projectId: "urbanvoiceproject-3c91e",
+    storageBucket: "",
+    messagingSenderId: "458019784325"
+};
 
- firebase.initializeApp(config);
+firebase.initializeApp(config);
+var database = firebase.database();
+var word;
+var speakButtons;
+var deleteButtons;
 
- var database = firebase.database();
+//urban dictionary API query 
+$("#addword").on("click", function(event) {
+    event.preventDefault();
+    //assign the users input to a variable
+    word = $("#word-input").val().trim();
+    $.ajax({
+        url: "http://api.urbandictionary.com/v0/define?term=" + word,
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            addrow(data, word);
+            var definition = data.list[0].definition;
+            setWordTable(word, definition);
+        }
+    });
+});
 
- var word;
+//set up the new word table, push to database
+function setWordTable(word, definition) {
+    word = {
+        wordVal: word,
+        definition: definition
+    };
+    database.ref().child("wordbank").push(word);
+}
 
- $("#addword").on("click", function(event) {
-     event.preventDefault();
-     word = $("#word-input").val().trim();
+//call the voice api- pass the definition variable as the paramater
+function voiceAPI(definition) {
+    console.log(definition);
+    let synth = window.speechSynthesis;
 
-     $.ajax({
-         url: "http://api.urbandictionary.com/v0/define?term=" + word,
-         dataType: "json",
-         success: function(data) {
-             console.log(data);
-             addrow(data, word);
-             var definition = data.list[0].definition;
-             setWordTable(word, definition);
-         }
-     });
- });
+    let utterance = new SpeechSynthesisUtterance(definition);
+    synth.speak(utterance);
+}
 
+//append a new row with the returned word info to the DOM library table
+function addrow(data, word){
+    var button;
+    button = $('<button>').text('Listen!').addClass(word);
+    $("#library").append(`
+    <tr id="${word}">
+        <td class="td--speak"><button class="button--speak">Listen!</button></td>
+        <td class="td--word ${word}">${word}</td>
+        <td class="td--definition">${data.list[0].definition}</td>
+        <td class="td--delete"><button class="button--delete">Delete Word</button></td>
+    </tr>
+    `);
+    speakButtons = $('.button--speak');
+    deleteButtons = $('.button--delete');
 
- //this function pushes data to the database
- function setWordTable(word, definition) {
-     word = {
-         wordVal: word,
-         definition: definition
-     };
+    listenForClicks(speakButtons);
+    listenForClicks(deleteButtons);
+    // clear the user input field out
+    $("#word-input").val(" ");
+}
+//listen for clicks on the wordbank buttons
+function listenForClicks(buttonClass){
+    $(buttonClass).on('click', function(){
+        var wordbankReference = $(this).attr('class');
+        console.log('Clicked ' + wordbankReference);
+        //set the wordbankLoookup variable equal to the button's id
+    })
+}
 
-     database.ref().child("wordbank").push(word);
-
- }
-
-
-
- function voiceAPI(definition) {
-     console.log(definition);
-     let synth = window.speechSynthesis;
-
-     let utterance = new SpeechSynthesisUtterance(definition);
-     synth.speak(utterance);
- }
-
-
- var button;
-
- function addrow(data, word) {
-     button = $('<button>').text('hello').addClass(word);
-     $("#library").append(`
-        <tr>
-            <td class="button"><button class="${word}">Listen!</button></td>
-            <td class="${word}">${word}</td>
-            <td class="definition">${data.list[0].definition}</td>
-            <td class="delete">delete icon</td>
-        </tr>
-     `);
- }
-
- function createButton(word) {
-
- }
