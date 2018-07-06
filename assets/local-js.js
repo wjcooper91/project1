@@ -23,24 +23,26 @@
          dataType: "json",
          success: function(data) {
              console.log(data);
-             addrow(data, word);
+             addrow(data);
              var definition = data.list[0].definition;
+             console.log(definition);
+
              setWordTable(word, definition);
          }
      });
  });
 
-
- //this function pushes data to the database
  function setWordTable(word, definition) {
      word = {
-         wordVal: word,
+         wordkey: word,
          definition: definition
      };
 
-     database.ref().child("wordbank").push(word);
-
+     // Add player2 to the database
+     database.ref().child("/wordbank/words").set(word);
  }
+
+ var inputWord = $("#word-input").val().trim();
 
 
 
@@ -53,20 +55,25 @@
  }
 
 
- var button;
+ function clickForVoice() {
+     /*if () {
+         //if this is in the word bank buttons call the DB
+     }*/
 
- function addrow(data, word) {
-     button = $('<button>').text('hello').addClass(word);
-     $("#library").append(`
-        <tr>
-            <td class="button"><button class="${word}">Listen!</button></td>
-            <td class="${word}">${word}</td>
-            <td class="definition">${data.list[0].definition}</td>
-            <td class="delete">delete icon</td>
-        </tr>
-     `);
+
  }
 
- function createButton(word) {
+ let $testButton = $('#button--test');
 
+ $testButton.click(function() {
+     voiceAPI("hello, this is a test");
+ });
+
+ function addrow(data) {
+     $("#library").append("<tr>" +
+         "<td class='button'>" + "<button id='button--test' class='btn voice_button'>test</button>" + "</td>" +
+         "<td class='word'>" + word + "</td>" +
+         "<td class='definition'>" + data.list[0].definition + "</td>" +
+         "<td class='delete'>" + "delete icon" + "</td>" +
+         "</tr>");
  }
