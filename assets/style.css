@@ -1,4 +1,10 @@
-.voice_button {
+.button--speak {
     color:#fff;
     background-color:slategray;
    }
+
+.delete-button {
+    color:#fff;
+    background-color:slategray;
+}
+
