@@ -55,19 +55,15 @@ function addrow(data, word){
     button = $('<button>').text('Listen!').addClass(word);
     $("#library").append(`
     <tr id="${word}">
-        <td class="td--speak"><button class="button--speak">Listen!</button></td>
+        <td class="td--speak"><button class="button--speak" data-listen=${word}>Listen!</button></td>
         <td class="td--word ${word}">${word}</td>
         <td class="td--definition">${data.list[0].definition}</td>
-        <td class="td--delete"><button class="button--delete">Delete Word</button></td>
+        <td class="td--delete"><button class="delete-button" data-word=${word}>Delete Word</button></td>
     </tr>
     `);
-    speakButtons = $('.button--speak');
-    deleteButtons = $('.button--delete');
-
-    listenForClicks(speakButtons);
-    listenForClicks(deleteButtons);
-    // clear the user input field out
+    
     $("#word-input").val(" ");
+
 }
 //listen for clicks on the wordbank buttons
 function listenForClicks(buttonClass){
@@ -75,6 +71,22 @@ function listenForClicks(buttonClass){
         var wordbankReference = $(this).attr('class');
         console.log('Clicked ' + wordbankReference);
         //set the wordbankLoookup variable equal to the button's id
+    
     })
+
+
 }
 
+$(document).on('click', '.delete-button', function() {
+    console.log('Called delete');
+    var row = $(this).attr('data-word');
+    console.log("Row: ", row);
+    $(`#${row}`).remove();
+});
+
+$(document).on('click', '.button--speak', function() {
+    console.log('Called speak')
+    var listenrow = $(this).attr('data-listen');
+    var definition = $(`#${listenrow}`).children('.td--definition').text();
+    voiceAPI(definition)
+});
