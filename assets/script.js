@@ -61,7 +61,7 @@ function addrow(data, word){
         <td class="td--delete"><button class="delete-button" data-word=${word}>Delete Word</button></td>
     </tr>
     `);
-    // clear the user input field out
+    
     $("#word-input").val(" ");
 
 }
