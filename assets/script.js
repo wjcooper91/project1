@@ -61,9 +61,19 @@ function addrow(data, word){
         <td class="td--delete"><button class="delete-button" data-word=${word}>Delete Word</button></td>
     </tr>
     `);
-    
     // clear the user input field out
     $("#word-input").val(" ");
+
+}
+//listen for clicks on the wordbank buttons
+function listenForClicks(buttonClass){
+    $(buttonClass).on('click', function(){
+        var wordbankReference = $(this).attr('class');
+        console.log('Clicked ' + wordbankReference);
+        //set the wordbankLoookup variable equal to the button's id
+    
+    })
+
 
 }
 
@@ -78,5 +88,5 @@ $(document).on('click', '.button--speak', function() {
     console.log('Called speak')
     var listenrow = $(this).attr('data-listen');
     var definition = $(`#${listenrow}`).children('.td--definition').text();
-    voiceAPI(definition);
+    voiceAPI(definition)
 });
