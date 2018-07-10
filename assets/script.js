@@ -17,16 +17,24 @@ var deleteButtons;
 //urban dictionary API query 
 $("#addword").on("click", function(event) {
     event.preventDefault();
+    $('#error').hide();
     //assign the users input to a variable
     word = $("#word-input").val().trim();
     $.ajax({
         url: "http://api.urbandictionary.com/v0/define?term=" + word,
         dataType: "json",
         success: function(data) {
-            console.log(data);
-            addrow(data, word);
-            var definition = data.list[0].definition;
-            setWordTable(word, definition);
+            if( data.result_type == "no_results"){
+                console.log('fail');
+                $('#error').show();
+                $("#word-input").val(" ");
+            }
+            else{
+                console.log(data);
+                addrow(data, word);
+                var definition = data.list[0].definition;
+                setWordTable(word, definition);
+            }
         }
     });
 });
@@ -55,10 +63,10 @@ function addrow(data, word){
     button = $('<button>').text('Listen!').addClass(word);
     $("#library").append(`
     <tr id="${word}">
-        <td class="td--speak"><button class="button--speak" data-listen=${word}>Listen!</button></td>
+        <td class="td--speak"><button class="button--icon button--speak" data-listen=${word}><i class="fas fa-volume-up"></i></button></td>
         <td class="td--word ${word}">${word}</td>
         <td class="td--definition">${data.list[0].definition}</td>
-        <td class="td--delete"><button class="delete-button" data-word=${word}>Delete Word</button></td>
+        <td class="td--delete"><button class="button--icon button--delete" data-word=${word}><i class="fas fa-trash-alt"></i></button></td>
     </tr>
     `);
     
@@ -77,7 +85,7 @@ function listenForClicks(buttonClass){
 
 }
 
-$(document).on('click', '.delete-button', function() {
+$(document).on('click', '.button--delete', function() {
     console.log('Called delete');
     var row = $(this).attr('data-word');
     console.log("Row: ", row);
