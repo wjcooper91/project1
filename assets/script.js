@@ -81,6 +81,8 @@ function listenForClicks(buttonClass){
         //set the wordbankLoookup variable equal to the button's id
     
     })
+
+
 }
 
 $(document).on('click', '.button--delete', function() {
@@ -94,8 +96,7 @@ $(document).on('click', '.button--speak', function() {
     console.log('Called speak')
     var listenrow = $(this).attr('data-listen');
     var definition = $(`#${listenrow}`).children('.td--definition').text();
-    voiceAPI(listenrow);
-    voiceAPI(definition);
+    voiceAPI(definition)
 });
 
 function wordOfTheDAy() {
