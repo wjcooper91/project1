@@ -21,7 +21,7 @@ $("#addword").on("click", function(event) {
     //assign the users input to a variable
     word = $("#word-input").val().trim();
     $.ajax({
-        url: "http://api.urbandictionary.com/v0/define?term=" + word,
+        url: "https://api.urbandictionary.com/v0/define?term=" + word,
         dataType: "json",
         success: function(data) {
             if( data.result_type == "no_results"){
@@ -96,6 +96,7 @@ $(document).on('click', '.button--speak', function() {
     console.log('Called speak')
     var listenrow = $(this).attr('data-listen');
     var definition = $(`#${listenrow}`).children('.td--definition').text();
+    voiceAPI(listenrow)
     voiceAPI(definition)
 });
 
@@ -115,7 +116,7 @@ function wordOfTheDAy() {
     console.log(randomID);
 
     $.ajax({
-        url: "http://api.urbandictionary.com/v0/define?defid=" + randomID,
+        url: "https://api.urbandictionary.com/v0/define?defid=" + randomID,
         dataType: "json",
         success: function(data) {
             if( data.result_type == "no_results"){
