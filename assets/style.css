@@ -59,10 +59,19 @@ header .search {
   background-color: #0b8b9f;
   border: none;
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
   -webkit-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
           box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+}
+
+@media (min-width: 980px) {
+  .button--icon {
+    font-size: 18px;
+    height: 40px;
+    width: 40px;
+  }
 }
 
 .content {
@@ -117,12 +126,17 @@ header .search {
   width: 70%;
 }
 
-#error {
-  display: none;
+.daily-word {
+  text-align: center;
+  padding: 30px;
 }
 
-#dailyex{
-    font-style: italic;
+.form {
+  margin-bottom: 10px;
+}
+
+#error {
+  display: none;
 }
 
 @media (max-width: 768px) {
