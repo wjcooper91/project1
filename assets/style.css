@@ -121,6 +121,10 @@ header .search {
   display: none;
 }
 
+#dailyex{
+    font-style: italic;
+}
+
 @media (max-width: 768px) {
   .library-row {
     display: none;
