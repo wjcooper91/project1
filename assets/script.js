@@ -63,9 +63,9 @@ function addrow(data, word){
     button = $('<button>').text('Listen!').addClass(word);
     $("#library").append(`
     <tr id="${word}">
-        <td class="td--speak"><button class="button--icon button--speak" data-listen=${word}><i class="fas fa-volume-up"></i></button></td>
         <td class="td--word ${word}">${word}</td>
         <td class="td--definition">${data.list[0].definition}</td>
+        <td class="td--speak"><button class="button--icon button--speak" data-listen=${word}><i class="fas fa-volume-up"></i></button></td>
         <td class="td--delete"><button class="button--icon button--delete" data-word=${word}><i class="fas fa-trash-alt"></i></button></td>
     </tr>
     `);
