@@ -98,3 +98,48 @@ $(document).on('click', '.button--speak', function() {
     var definition = $(`#${listenrow}`).children('.td--definition').text();
     voiceAPI(definition)
 });
+
+function wordOfTheDAy() {
+    // event.preventDefault();
+   
+    var dailyWord;
+    var dailyWordDfn;
+    var dailyWordExample;
+    var randomID = '13056046';
+    
+    // randomID = Math.floor((Math.random() * 12000) + 1000);
+    console.log(randomID);
+    // randomID = '1' + randomID;
+    
+    // console.log(rand2);
+    console.log(randomID);
+
+    $.ajax({
+        url: "http://api.urbandictionary.com/v0/define?defid=" + randomID,
+        dataType: "json",
+        success: function(data) {
+            if( data.result_type == "no_results"){
+                console.log('fail');
+                $('#error').show();
+                // $("#dailyword").val(" ");
+            }
+            else{
+                console.log(data);
+                // addrow(data, word);
+                dailyWord = data.list[0].word;
+                console.log(dailyWord);
+                dailyWordDfn = data.list[0].definition;     
+                console.log(dailyWordDfn);          
+                dailyWordExample = data.list[0].example; 
+                console.log(dailyWordExample);
+                $("#dailyword").text(dailyWord);
+                $("#dailydfn").text(dailyWordDfn);
+                $("#dailyex").text(dailyWordExample);
+                // setWordTable(word, definition);
+            }
+        }
+    });
+
+}
+
+wordOfTheDAy();
