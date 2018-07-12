@@ -104,9 +104,9 @@ function wordOfTheDAy() {
     var dailyWord;
     var dailyWordDfn;
     var dailyWordExample;
-    var randomID;
+    var randomID = '13056046';
     
-    randomID = Math.floor((Math.random() * 12000) + 1000);
+    // randomID = Math.floor((Math.random() * 12000) + 1000);
     console.log(randomID);
     // randomID = '1' + randomID;
     
